@@ -2,21 +2,22 @@
 (function() {
     // Create the button element
     const backButton = document.createElement('a');
-    backButton.href = 'https://christianvillagantecoi-lab.github.io/MyPortfolio/'; // Change this to your target HTML file
+    backButton.id = 'modern-back-btn';
+    backButton.href = 'https://www.google.com'; // Change to your destination link or HTML file
     backButton.innerHTML = `
-        <svg xmlns="https://christianvillagantecoi-lab.github.io/MyPortfolio/" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-        <span>Back to projects</span>
+        <span>Back</span>
     `;
 
-    // Modern styling for the button
+    // Modern styling for the button (hidden by default)
     Object.assign(backButton.style, {
         position: 'fixed',
-        top: '15px',
+        top: '20px',
         left: '20px',
-        display: 'flex',
+        display: 'none', // Hidden initially
         alignItems: 'center',
         gap: '8px',
         padding: '10px 16px',
@@ -47,20 +48,23 @@
         backButton.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
     });
 
-    backButton.addEventListener('mousedown', () => {
-        backButton.style.transform = 'translateY(0) scale(0.98)';
-    });
+    // Global helper functions to show/hide the button from your other scripts
+    window.showGoBackButton = function() {
+        backButton.style.display = 'flex';
+    };
 
-    backButton.addEventListener('mouseup', () => {
-        backButton.style.transform = 'translateY(-1px) scale(1)';
-    });
+    window.hideGoBackButton = function() {
+        backButton.style.display = 'none';
+    };
 
-    // Append the button to the body once the DOM is loaded
-    if (document.body) {
+    // Automatically check or show it if the menu element is active on load
+    window.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(backButton);
-    } else {
-        window.addEventListener('DOMContentLoaded', () => {
-            document.body.appendChild(backButton);
-        });
-    }
+        
+        // If you use a specific element ID for your menu (e.g., id="menu")
+        const menuEl = document.getElementById('menu');
+        if (menuEl && window.getComputedStyle(menuEl).display !== 'none') {
+            window.showGoBackButton();
+        }
+    });
 })();
